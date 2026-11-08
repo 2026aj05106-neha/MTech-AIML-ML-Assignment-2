@@ -1,1 +1,7 @@
-Before submission:\n1. Review and understand the code; customize it as required by your course rules.\n2. Ensure dataset_full.csv, train_data.csv, test_data.csv and the five saved model files are in the repository.\n3. Deploy app.py on Streamlit Community Cloud and test using test_data.csv.\n4. Add the actual live Streamlit URL to the final PDF.\n5. Run the work in BITS Virtual Lab and capture the required screenshot.\n6. Follow the assignment brief's rule that AI is for learning support, not direct copy-paste submission.\n
+IMPORTANT BEFORE SUBMISSION
+1. Create your own GitHub repository and upload all project files.
+2. Replace the GitHub URL placeholder in README.md.
+3. Deploy app.py on Streamlit Community Cloud and test with test_data.csv.
+4. Add your actual live Streamlit URL to the final PDF.
+5. Run the work on BITS Virtual Lab and capture the required screenshot.
+6. The assignment brief states that AI tools are for learning support, not direct copy-paste submissions. Review, understand, customize, and validate your work before submitting.

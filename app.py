@@ -34,6 +34,7 @@ if uploaded is not None:
 
     target = data["target"]
     feature_data = data.drop(columns=[c for c in ["target", "target_name"] if c in data.columns])
+
     model = joblib.load(MODEL_DIR / MODEL_FILES[selected])
     expected_features = list(model.feature_names_in_) if hasattr(model, "feature_names_in_") else None
 
@@ -45,6 +46,7 @@ if uploaded is not None:
 
     predictions = model.predict(feature_data)
     probabilities = model.predict_proba(feature_data)[:, 1]
+
     st.subheader("Evaluation metrics")
     try:
         auc = roc_auc_score(target, probabilities)
@@ -61,12 +63,15 @@ if uploaded is not None:
     cols = st.columns(3)
     for col, (name, value) in zip(cols * 2, values.items()):
         col.metric(name, "N/A" if pd.isna(value) else f"{value:.4f}")
+
     st.subheader("Confusion matrix")
     cm = confusion_matrix(target, predictions)
     st.dataframe(pd.DataFrame(cm, index=["Actual 0", "Actual 1"], columns=["Predicted 0", "Predicted 1"]))
+
     st.subheader("Classification report")
     report = classification_report(target, predictions, output_dict=True, zero_division=0)
     st.dataframe(pd.DataFrame(report).transpose(), use_container_width=True)
+
     output = data.copy()
     output["predicted_target"] = predictions
     st.download_button("Download predictions CSV", output.to_csv(index=False).encode("utf-8"),

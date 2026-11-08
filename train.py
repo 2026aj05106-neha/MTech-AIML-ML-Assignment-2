@@ -19,6 +19,7 @@ y = data["target"]
 X_train, X_test, y_train, y_test = train_test_split(
     X, y, test_size=0.20, random_state=42, stratify=y
 )
+
 models = {
     "Logistic Regression": Pipeline([("scaler", StandardScaler()), ("model", LogisticRegression(max_iter=3000, random_state=42))]),
     "Decision Tree": DecisionTreeClassifier(random_state=42, max_depth=5),
@@ -33,13 +34,22 @@ for name, estimator in models.items():
     pred = estimator.predict(X_test)
     score = estimator.predict_proba(X_test)[:, 1]
     results.append({
-        "ML Model Name": name, "Accuracy": accuracy_score(y_test, pred),
-        "AUC": roc_auc_score(y_test, score), "Precision": precision_score(y_test, pred, zero_division=0),
-        "Recall": recall_score(y_test, pred, zero_division=0), "F1 Score": f1_score(y_test, pred, zero_division=0),
+        "ML Model Name": name,
+        "Accuracy": accuracy_score(y_test, pred),
+        "AUC": roc_auc_score(y_test, score),
+        "Precision": precision_score(y_test, pred, zero_division=0),
+        "Recall": recall_score(y_test, pred, zero_division=0),
+        "F1 Score": f1_score(y_test, pred, zero_division=0),
         "MCC": matthews_corrcoef(y_test, pred),
     })
-    filename = {"Logistic Regression": "logistic_regression", "Decision Tree": "decision_tree",
-                "KNN": "knn", "Naive Bayes": "naive_bayes", "Support Vector Machine": "svm"}[name]
+    filename = {
+        "Logistic Regression": "logistic_regression",
+        "Decision Tree": "decision_tree",
+        "KNN": "knn",
+        "Naive Bayes": "naive_bayes",
+        "Support Vector Machine": "svm",
+    }[name]
     joblib.dump(estimator, ROOT / "model" / f"{filename}.joblib")
+
 pd.DataFrame(results).to_csv(ROOT / "model_metrics.csv", index=False)
 print(pd.DataFrame(results).to_string(index=False))
